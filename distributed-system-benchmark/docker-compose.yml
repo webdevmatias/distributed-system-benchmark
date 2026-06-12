@@ -1,0 +1,67 @@
+services:
+  rabbitmq:
+    image: rabbitmq:3.13-management-alpine
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  products-service:
+    build: ./products-service
+    container_name: products-service
+    ports:
+      - "3002:3002"
+    environment:
+      PORT: 3002
+
+  orders-service:
+    build: ./orders-service
+    container_name: orders-service
+    ports:
+      - "3001:3001"
+    environment:
+      PORT: 3001
+      PRODUCTS_SERVICE_URL: http://products-service:3002
+      RABBITMQ_URL: amqp://guest:guest@rabbitmq:5672
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      products-service:
+        condition: service_started
+
+  gateway:
+    build: ./gateway
+    container_name: gateway
+    ports:
+      - "3000:3000"
+    environment:
+      PORT: 3000
+      ORDERS_SERVICE_URL: http://orders-service:3001
+    depends_on:
+      - orders-service
+
+  payments-service:
+    build: ./payments-service
+    container_name: payments-service
+    ports:
+      - "3003:3003"
+    environment:
+      PORT: 3003
+      RABBITMQ_URL: amqp://guest:guest@rabbitmq:5672
+      SQLITE_PATH: /data/database.sqlite
+    volumes:
+      - payments-data:/data
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+volumes:
+  payments-data:
