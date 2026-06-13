@@ -1,0 +1,103 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Dependências
+node_modules/
+
+# Angular
+.angular/
+dist/
+out-tsc/
+coverage/
+
+# Build
+build/
+tmp/
+temp/
+
+# Arquivos de ambiente
+.env
+.env.*
+!.env.example
+
+# Cache
+.cache/
+.parcel-cache/
+.eslintcache
+
+# IDEs
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Sistema Operacional
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Arquivos temporários
+*.tmp
+*.temp
+*.swp
+*.bak
+
+# Testes
+coverage/
+.nyc_output/
+
+# TypeScript
+*.tsbuildinfo
+
+# Docker
+docker-data/
+*.pid
+
+# Banco de dados local
+*.sqlite
+*.sqlite3
+*.db
+
+# Prisma
+prisma/dev.db
+prisma/dev.db-journal
+
+# Firebase
+.firebase/
+
+# Vercel
+.vercel/
+
+# Netlify
+.netlify/
+
+# Arquivos de configuração locais
+*.local
+
+# Certificados
+*.pem
+*.key
+*.crt
+
+# Relatórios
+report.html
+reports/
+
+# Arquivos compactados
+*.zip
+*.tar
+*.gz
+*.rar
+
+# Arquivos gerados automaticamente
+generated/

@@ -21,7 +21,7 @@ services:
       - "3002:3002"
     environment:
       PORT: 3002
-      PRODUCTS_DELAY_MS: 0
+      PRODUCTS_DELAY_MS: ${PRODUCTS_DELAY_MS:-0}
 
   orders-service:
     build: ./orders-service
@@ -32,7 +32,7 @@ services:
       PORT: 3001
       PRODUCTS_SERVICE_URL: http://products-service:3002
       RABBITMQ_URL: amqp://guest:guest@rabbitmq:5672
-      ORDERS_DELAY_MS: 0
+      ORDERS_DELAY_MS: ${ORDERS_DELAY_MS:-0}
     depends_on:
       rabbitmq:
         condition: service_healthy
@@ -47,7 +47,7 @@ services:
     environment:
       PORT: 3000
       ORDERS_SERVICE_URL: http://orders-service:3001
-      GATEWAY_DELAY_MS: 0
+      GATEWAY_DELAY_MS: ${GATEWAY_DELAY_MS:-0}
     depends_on:
       - orders-service
 
@@ -60,7 +60,7 @@ services:
       PORT: 3003
       RABBITMQ_URL: amqp://guest:guest@rabbitmq:5672
       SQLITE_PATH: /data/database.sqlite
-      PAYMENTS_DELAY_MS: 0
+      PAYMENTS_DELAY_MS: ${PAYMENTS_DELAY_MS:-0}
     volumes:
       - payments-data:/data
     depends_on:
